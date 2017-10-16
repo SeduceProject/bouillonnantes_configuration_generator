@@ -1,0 +1,23 @@
+# $REFERENCE_REPO/input/grid5000/sites/nantes/clusters/bouillonnantes/bouillonnantes.yml
+---
+model: Dell R630
+created_at: {{ now }}
+kavlan: true
+queues:
+  - default
+  - admin
+
+nodes:
+{%- for node in nodes %}
+  {{ node.name }}-{{ node.server_number }}:
+    chassis:
+      serial: {{ node.serial }}
+    network_adapters:
+      bmc:
+        ip: 172.17.193.{{ node.server_number }}
+        mac: {{ node.idrac_mac }}
+      eth0:
+        ip: 172.16.193.{{ node.server_number }}
+        mac: {{ node.nic1_mac }}
+        mounted: true
+{%- endfor %}
